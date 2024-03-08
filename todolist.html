@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task List</title>
+
+  <style>
+    body {
+      height: 100vh;
+      background-image: radial-gradient(circle, yellow, lightskyblue);
+      background-repeat: no-repeat;
+
+    }
+
+    h2 {
+
+      height: 100%;
+      width: 100%;
+      color: black;
+      font-weight: normal;
+      font-style: papryus;
+      font-family: fantasy;
+    }
+
+    #taskInput {
+      margin-left: 70px;
+      position: relative;
+      width: 20%;
+      border-radius: 50px;
+
+
+    }
+
+    #dateInput {
+      margin-left: 20px;
+      position: relative;
+      width: 20%;
+      border-radius: 50px;
+
+    }
+
+    #addTaskBtn {
+      font-style: Comic San MS;
+      font-weight: bold;
+      border-radius: 25px;
+      background-color: green;
+      border: none;
+      color: black;
+      padding: 8px 16px;
+      text-align: center;
+
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+
+    }
+
+    #addTaskBtn:hover {
+      background-color: darkgreen;
+      color: black;
+       
+    }
+
+    #addTaskBtn:active {
+      background-color: green;
+      padding: 6px 14px;
+
+    }
+
+    #taskList {
+      list-style-type: none;
+      padding: 0;
+      text-align: center;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+
+    li {
+      margin: 1px;
+      padding: 5px;
+      border: 1 px solid;
+      display: inline-block;
+    }
+
+    .removeButton {
+      background-color: red;
+      font-weight: bolder;
+      font-size: large;
+      color: black;
+      border: none;
+      padding: 10px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .removeButton:hover {
+      background-color: darkred;
+      font-weight: bolder;
+      font-size: large;
+      color: black;
+      border: none;
+      padding: 10px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .removeButton:active {
+      background-color: red;
+      font-weight: bolder;
+      font-size: large;
+      color: black;
+      border: none;
+      padding: 8px 8px;
+    }
+
+    .checkButton {
+      background-color: green;
+      font-weight: bolder;
+      font-size: large;
+      color: black;
+      border: none;
+      padding: 10px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .checkButton:hover {
+      background-color: darkgreen;
+      font-weight: bolder;
+      font-size: large;
+      color: black;
+      border: none;
+      padding: 10px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .checkButton:active {
+      background-color: green;
+      font-weight: bolder;
+      font-size: large;
+      color: black;
+      border: none;
+      padding: 8px 8px;
+      border-radius: 6px;
+    }
+
+    .checked {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="body">
+    <h2 align="center">Task List</h2>
+    <center>
+      <input type="text" id="taskInput" placeholder="Enter task">
+      <input type="date" id="dateInput">
+      <button id="addTaskBtn">Add</button>
+
+      <ul id="taskList">
+        <li>Do Homework - 2024-02-03</li><br>
+        <li>Buy Food - 2024-02-05</li><br>
+      </ul>
+
+
+      <script>
+        document.getElementById("addTaskBtn").addEventListener("click", function () {
+          addTask();
+        });
+
+        document.getElementById("taskInput").addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            addTask();
+          }
+        });
+
+        document.getElementById("dateInput").addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            addTask();
+          }
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+          var taskList = document.getElementById("taskList");
+          var taskItems = taskList.getElementsByTagName("li");
+
+          for (var i = 0; i < taskItems.length; i++) {
+            var taskItem = taskItems[i];
+
+            var removeButton = document.createElement("button");
+            removeButton.classList.add("removeButton");
+            removeButton.textContent = " \u00D7";
+            removeButton.addEventListener("click", function () {
+              this.parentNode.remove();
+            });
+
+            var checkButton = document.createElement("button");
+            checkButton.classList.add("checkButton");
+            checkButton.textContent = " ✓";
+            checkButton.addEventListener("click", function () {
+              this.parentNode.classList.toggle("checked");
+            });
+
+            taskItem.appendChild(taskItem.childNodes[0]);
+            taskItem.appendChild(checkButton);
+            taskItem.appendChild(removeButton);
+          }
+        });
+        function addTask() {
+          var taskInput = document.getElementById("taskInput");
+          var dateInput = document.getElementById("dateInput");
+          var taskList = document.getElementById("taskList");
+
+          if (taskInput.value.trim() !== "") {
+            var listItem = document.createElement("li");
+            listItem.textContent = taskInput.value + " - " + dateInput.value;
+
+            listItem.addEventListener('click', function (ch) {
+              if (ch.target.tagName === 'li') {
+                ch.target.classList.toggle('checked');
+              }
+            }, false);
+
+            var removeButton = document.createElement("button");
+            removeButton.classList.add("removeButton");
+            removeButton.textContent = " \u00D7";
+            removeButton.addEventListener("click", function () {
+              listItem.remove();
+            });
+
+            var checkButton = document.createElement("button");
+            checkButton.classList.add("checkButton");
+            checkButton.textContent = " ✓";
+            checkButton.addEventListener("click", function () {
+              listItem.classList.toggle("checked");
+            });
+            listItem.appendChild(checkButton);
+            listItem.appendChild(removeButton);
+            taskList.appendChild(listItem);
+            taskList.appendChild(document.createElement("br"));
+            taskInput.value = "";
+            dateInput.value = "";
+          }
+
+        }
+      </script>
+
+    </center>
+  </div>
+</body>
+
+</html>
